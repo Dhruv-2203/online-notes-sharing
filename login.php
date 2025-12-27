@@ -16,7 +16,9 @@ if (isset($_POST['login'])) {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
-            echo "Login successful!";
+            header("Location: dashboard.php");
+exit();
+
         } else {
             echo "Wrong password!";
         }

@@ -19,6 +19,7 @@ if (!isset($_SESSION['user_id'])) {
 <p>You are logged in.</p>
 
 <a href="upload_notes.php">Upload Notes</a><br><br>
+<a href="notes.php">View Notes</a><br><br>
 <a href="logout.php">Logout</a>
 
 </body>

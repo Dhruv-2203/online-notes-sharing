@@ -11,6 +11,12 @@ if (isset($_POST['upload'])) {
 
     $title = $_POST['title'];
     $file = $_FILES['note_file'];
+    $fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+if ($fileType != "pdf") {
+    echo "Only PDF files are allowed!";
+    exit();
+}
 
     $fileName = time() . "_" . $file['name'];
     $targetPath = "uploads/" . $fileName;

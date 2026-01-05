@@ -30,6 +30,7 @@ $result = mysqli_query($conn, $query);
         <th>Uploaded By</th>
         <th>Date</th>
         <th>Download</th>
+        <th>Action</th>
     </tr>
 
     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
@@ -38,10 +39,20 @@ $result = mysqli_query($conn, $query);
         <td><?php echo $row['name']; ?></td>
         <td><?php echo $row['uploaded_at']; ?></td>
         <td>
-            <a href="uploads/<?php echo $row['file_name']; ?>" download>
-                Download
-            </a>
-        </td>
+    <a href="uploads/<?php echo $row['file_name']; ?>" download>Download</a>
+</td>
+
+<td>
+<?php if ($row['uploaded_by'] == $_SESSION['user_id']) { ?>
+    <a href="delete_note.php?id=<?php echo $row['id']; ?>" 
+       onclick="return confirm('Are you sure you want to delete this note?')">
+        Delete
+    </a>
+<?php } else { ?>
+    ---
+<?php } ?>
+</td>
+
     </tr>
     <?php } ?>
 

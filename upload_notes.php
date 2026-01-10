@@ -17,6 +17,12 @@ if ($fileType != "pdf") {
     echo "Only PDF files are allowed!";
     exit();
 }
+$maxSize = 5 * 1024 * 1024; // 5 MB
+
+if ($file['size'] > $maxSize) {
+    echo "File size must be less than 5MB!";
+    exit();
+}
 
     $fileName = time() . "_" . $file['name'];
     $targetPath = "uploads/" . $fileName;

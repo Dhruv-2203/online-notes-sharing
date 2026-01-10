@@ -7,10 +7,22 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$query = "SELECT notes.*, users.name 
-          FROM notes 
-          JOIN users ON notes.uploaded_by = users.id 
-          ORDER BY notes.uploaded_at DESC";
+$search = "";
+
+if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $query = "SELECT notes.*, users.name 
+              FROM notes 
+              JOIN users ON notes.uploaded_by = users.id
+              WHERE notes.title LIKE '%$search%'
+              ORDER BY notes.uploaded_at DESC";
+} else {
+    $query = "SELECT notes.*, users.name 
+              FROM notes 
+              JOIN users ON notes.uploaded_by = users.id
+              ORDER BY notes.uploaded_at DESC";
+}
+
 
 $result = mysqli_query($conn, $query);
 ?>
@@ -23,6 +35,13 @@ $result = mysqli_query($conn, $query);
 <body>
 
 <h2>Uploaded Notes</h2>
+
+<form method="GET">
+    <input type="text" name="search" placeholder="Search by title">
+    <button type="submit">Search</button>
+</form>
+
+<br>
 
 <table border="1" cellpadding="10">
     <tr>

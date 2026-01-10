@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $search = "";
 
 if (isset($_GET['search'])) {
-    $search = $_GET['search'];
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
     $query = "SELECT notes.*, users.name 
               FROM notes 
               JOIN users ON notes.uploaded_by = users.id

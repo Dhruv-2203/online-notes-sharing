@@ -4,8 +4,9 @@ session_start();
 
 if (isset($_POST['login'])) {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
 
     $query = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($conn, $query);

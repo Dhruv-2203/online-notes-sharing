@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 if (isset($_POST['upload'])) {
 
-    $title = $_POST['title'];
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
     $file = $_FILES['note_file'];
     $fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
 

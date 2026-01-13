@@ -50,16 +50,30 @@ if ($file['size'] > $maxSize) {
 <html>
 <head>
     <title>Upload Notes</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <h2>Upload Notes</h2>
 
-<form method="POST" enctype="multipart/form-data">
-    <input type="text" name="title" placeholder="Note Title" required><br><br>
-    <input type="file" name="note_file" required><br><br>
-    <button type="submit" name="upload">Upload</button>
-</form>
+<div class="nav">
+    <strong>Online Notes Sharing</strong>
+    <span style="float:right;">
+        <a href="dashboard.php">Dashboard</a>
+        <a href="notes.php">View Notes</a>
+        <a href="logout.php">Logout</a>
+    </span>
+</div>
+
+<div class="container" style="margin-top:40px;">
+    <h2>Upload Notes</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="Note Title" required>
+        <input type="file" name="note_file" required>
+        <button type="submit" name="upload">Upload</button>
+    </form>
+</div>
 
 <br>
 <a href="dashboard.php">Back to Dashboard</a>

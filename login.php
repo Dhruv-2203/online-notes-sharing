@@ -33,16 +33,25 @@ exit();
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <h2>Login</h2>
 
-<form method="POST">
-    <input type="email" name="email" placeholder="Enter Email" required><br><br>
-    <input type="password" name="password" placeholder="Enter Password" required><br><br>
-    <button type="submit" name="login">Login</button>
-</form>
+<div class="container">
+    <h2>Login</h2>
+
+    <form method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" name="login">Login</button>
+    </form>
+
+    <p style="text-align:center; margin-top:10px;">
+        New user? <a href="register.php">Register here</a>
+    </p>
+</div>
 
 </body>
 </html>

@@ -11,16 +11,23 @@ if (!isset($_SESSION['user_id'])) {
 <html>
 <head>
     <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h2>Welcome, <?php echo $_SESSION['user_name']; ?> 👋</h2>
+<div class="nav">
+    <strong>Online Notes Sharing</strong>
+    <span style="float:right;">
+        <a href="notes.php">View Notes</a>
+        <a href="upload_notes.php">Upload Notes</a>
+        <a href="logout.php">Logout</a>
+    </span>
+</div>
 
-<p>You are logged in.</p>
-
-<a href="upload_notes.php">Upload Notes</a><br><br>
-<a href="notes.php">View Notes</a><br><br>
-<a href="logout.php">Logout</a>
+<div class="container" style="margin-top:40px;">
+    <h2>Welcome, <?php echo $_SESSION['user_name']; ?> 👋</h2>
+    <p>You are successfully logged in.</p>
+</div>
 
 </body>
 </html>

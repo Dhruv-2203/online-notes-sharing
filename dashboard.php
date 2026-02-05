@@ -16,17 +16,26 @@ if (!isset($_SESSION['user_id'])) {
 <body>
 
 <div class="nav">
-    <strong>Online Notes Sharing</strong>
-    <span style="float:right;">
-        <a href="notes.php">View Notes</a>
-        <a href="upload_notes.php">Upload Notes</a>
-        <a href="logout.php">Logout</a>
-    </span>
+    <div class="logo">
+        Online Notes Sharing
+    </div>
+
+    <div class="menu">
+        <a href="dashboard.php"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="notes.php"><i class="fa fa-book"></i> View Notes</a>
+        <a href="upload_notes.php"><i class="fa fa-upload"></i> Upload</a>
+        <a href="logout.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
 </div>
 
-<div class="container" style="margin-top:40px;">
-    <h2>Welcome, <?php echo $_SESSION['user_name']; ?> 👋</h2>
+<div class="container">
+    <h2>
+        Welcome,
+        <?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : 'User'; ?> 👋
+</h2>
+
     <p>You are successfully logged in.</p>
+    <p>Use the navigation bar above to upload or view notes.</p>
 </div>
 
 </body>

@@ -51,18 +51,23 @@ if ($file['size'] > $maxSize) {
 <head>
     <title>Upload Notes</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <h2>Upload Notes</h2>
 
 <div class="nav">
-    <strong>Online Notes Sharing</strong>
-    <span style="float:right;">
-        <a href="dashboard.php">Dashboard</a>
-        <a href="notes.php">View Notes</a>
-        <a href="logout.php">Logout</a>
-    </span>
+    <div class="logo">
+        Online Notes Sharing
+    </div>
+
+    <div class="menu">
+        <a href="dashboard.php"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="notes.php"><i class="fa fa-book"></i> View Notes</a>
+        <a href="upload_notes.php"><i class="fa fa-upload"></i> Upload</a>
+        <a href="logout.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
 </div>
 
 <div class="container" style="margin-top:40px;">
@@ -76,7 +81,6 @@ if ($file['size'] > $maxSize) {
 </div>
 
 <br>
-<a href="dashboard.php">Back to Dashboard</a>
 
 </body>
 </html>

@@ -29,20 +29,33 @@ if (isset($_POST['register'])) {
 
 <h2>Register</h2>
 
-<div class="container">
-    <h2>Register</h2>
+<div class="container mt-5" style="max-width:500px;">
+    <div class="card shadow p-4">
+        <h3 class="text-center mb-4">Register</h3>
 
-    <form method="POST">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" name="register">Register</button>
-    </form>
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+            </div>
 
-    <p style="text-align:center; margin-top:10px;">
-        Already have an account? <a href="login.php">Login</a>
-    </p>
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+
+            <p class="text-center mt-3">
+                Already have an account?
+                <a href="login.php">Login</a>
+            </p>
+        </form>
+    </div>
 </div>
-
 </body>
 </html>

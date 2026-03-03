@@ -36,8 +36,9 @@ $result = mysqli_query($conn, $query);
 <html>
 <head>
     <title>All Notes</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
@@ -50,26 +51,41 @@ $result = mysqli_query($conn, $query);
         <button type="submit">Search</button>
     </form>
 
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>File</th>
-            <th>Uploaded By</th>
-        </tr>
+    <div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4">All Notes</h3>
 
-        <?php while($row = mysqli_fetch_assoc($result)) { ?>
-<tr>
-    <td><?php echo htmlspecialchars($row['title']); ?></td>
+        <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Title</th>
+                    <th>File</th>
+                    <th>Uploaded By</th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <td>
-        <a href="uploads/<?php echo $row['file_name']; ?>" target="_blank">View</a>
-    </td>
+            <?php while($row = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><?php echo $row['title']; ?></td>
+                    <td>
+                        <a class="btn btn-sm btn-success"
+                           href="uploads/<?php echo $row['file_name']; ?>"
+                           target="_blank">
+                           <i class="fa fa-download"></i> View
+                        </a>
+                    </td>
+                    <td><?php echo $row['uploaded_by']; ?></td>
+                </tr>
+            <?php } ?>
 
-    <td><?php echo htmlspecialchars($row['name']); ?></td>
-</tr>
-        <?php } ?>
-    </table>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 </div>
 
+<?php include("includes/footer.php"); ?>
 </body>
 </html>

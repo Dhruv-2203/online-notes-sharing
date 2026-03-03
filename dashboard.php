@@ -12,21 +12,24 @@ if (!isset($_SESSION['user_id'])) {
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 
-<div class="container">
-    <h2>
-        Welcome,
-        <?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : 'User'; ?> 👋
-</h2>
+<div class="container mt-5">
+    <div class="card shadow p-4 text-center">
+        <h2 class="mb-3">
+            Welcome, <?php echo $_SESSION['name']; ?> 👋
+        </h2>
+        
+        <p class="text-muted">Manage and share your study notes easily.</p>
 
-    <p>You are successfully logged in.</p>
-    <p>Use the navigation bar above to upload or view notes.</p>
+    </div>
 </div>
 
+<?php include("includes/footer.php"); ?>
 </body>
 </html>

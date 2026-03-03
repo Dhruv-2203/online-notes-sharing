@@ -1,18 +1,17 @@
 <?php
 include "db.php";
 
-if (isset($_POST['register'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-
     $query = "INSERT INTO users (name, email, password)
               VALUES ('$name', '$email', '$password')";
 
     if (mysqli_query($conn, $query)) {
-        echo "Registration successful!";
+        echo "<script>alert('Registration successful!');</script>";
     } else {
         echo "Error: " . mysqli_error($conn);
     }
@@ -23,11 +22,12 @@ if (isset($_POST['register'])) {
 <html>
 <head>
     <title>User Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-<h2>Register</h2>
 
 <div class="container mt-5" style="max-width:500px;">
     <div class="card shadow p-4">
@@ -57,5 +57,6 @@ if (isset($_POST['register'])) {
         </form>
     </div>
 </div>
+<?php include("includes/footer.php"); ?>
 </body>
 </html>

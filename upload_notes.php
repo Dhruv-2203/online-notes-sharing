@@ -1,45 +1,34 @@
 <?php
 session_start();
-include "db.php";
-include "includes/header.php";
-
+include("db.php");
+include("includes/header.php");
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-if (isset($_POST['upload'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $file = $_FILES['note_file'];
-    $fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $uploaded_by = $_SESSION['name'];
 
-if ($fileType != "pdf") {
-    echo "Only PDF files are allowed!";
-    exit();
-}
-$maxSize = 5 * 1024 * 1024; // 5 MB
+    $file = $_FILES['file']['name'];
+    $temp_name = $_FILES['file']['tmp_name'];
 
-if ($file['size'] > $maxSize) {
-    echo "File size must be less than 5MB!";
-    exit();
-}
+    $new_file_name = time() . "_" . $file;
 
-    $fileName = time() . "_" . $file['name'];
-    $targetPath = "uploads/" . $fileName;
+    $upload_path = "uploads/" . $new_file_name;
 
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+    if (move_uploaded_file($temp_name, $upload_path)) {
 
-        $userId = $_SESSION['user_id'];
-
-        $query = "INSERT INTO notes (title, file_name, uploaded_by)
-                  VALUES ('$title', '$fileName', '$userId')";
+        $query = "INSERT INTO notes (title, file_name, uploaded_by, uploaded_at)
+                  VALUES ('$title', '$new_file_name', '$uploaded_by', NOW())";
 
         if (mysqli_query($conn, $query)) {
-            echo "Note uploaded successfully!";
+            echo "<script>alert('Note uploaded successfully!');</script>";
         } else {
-            echo "Database error!";
+            echo "Database Error: " . mysqli_error($conn);
         }
 
     } else {

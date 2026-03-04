@@ -11,6 +11,17 @@ $note_count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM notes"));
 // Total Downloads
 $download_count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM downloads"));
 
+$popular_query = mysqli_query($conn, "
+    SELECT notes.title, COUNT(downloads.id) as total_downloads
+    FROM downloads
+    JOIN notes ON downloads.note_id = notes.id
+    GROUP BY downloads.note_id
+    ORDER BY total_downloads DESC
+    LIMIT 1
+");
+
+$popular_note = mysqli_fetch_assoc($popular_query);
+
 // If not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
@@ -31,6 +42,7 @@ if ($_SESSION['role'] != 'admin') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: Arial;
@@ -78,40 +90,111 @@ if ($_SESSION['role'] != 'admin') {
     <h2>Admin Panel</h2>
 </div>
 
-<div class="container">
-    <h3>Welcome Admin 👋</h3>
+<div class="container mt-5">
+    <h3 class="mb-4">Welcome Admin 👋</h3>
 
-<div style="display:flex; gap:20px; flex-wrap:wrap;">
+    <div class="row text-center">
 
-    <div class="card">
-        <h2><?php echo $user_count; ?></h2>
-        <p>Total Users</p>
+    <!-- Total Users -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow p-4 text-white"
+             style="background: linear-gradient(45deg, #0d6efd, #3b82f6); border-radius:15px;">
+            <h4><?php echo $user_count; ?></h4>
+            <p>Total Users</p>
+        </div>
     </div>
 
-    <div class="card">
-        <h2><?php echo $note_count; ?></h2>
-        <p>Total Notes</p>
+    <!-- Total Notes -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow p-4 text-white"
+             style="background: linear-gradient(45deg, #198754, #22c55e); border-radius:15px;">
+            <h4><?php echo $note_count; ?></h4>
+            <p>Total Notes</p>
+        </div>
     </div>
 
-    <div class="card">
-        <h2><?php echo $download_count; ?></h2>
-        <p>Total Downloads</p>
+    <!-- Total Downloads -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow p-4 text-white"
+             style="background: linear-gradient(45deg, #fd7e14, #f97316); border-radius:15px;">
+            <h4><?php echo $download_count; ?></h4>
+            <p>Total Downloads</p>
+        </div>
+    </div>
+
+    <!-- Most Downloaded -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow p-4 text-white"
+             style="background: linear-gradient(45deg, #dc3545, #ef4444); border-radius:15px;">
+            <h6>Most Downloaded</h6>
+            <p>
+                <?php 
+                echo $popular_note ? $popular_note['title'] : "No downloads yet";
+                ?>
+            </p>
+        </div>
+    </div>
+    <div class="card shadow p-4 mt-4">
+    <h4 class="text-center mb-4">System Statistics</h4>
+    <canvas id="statsChart" height="120"></canvas>
     </div>
 
 </div>
 
-<br><br>
-
-<a href="manage_users.php" class="card">
-    Manage Users
-</a>
-
-<a href="manage_notes.php" class="card">
-    Manage Notes
-</a>
-
+    <div class="text-center mt-4">
+    <a href="manage_users.php" class="btn btn-primary me-3 px-4">Manage Users</a>
+    <a href="manage_notes.php" class="btn btn-primary px-4">Manage Notes</a>
+    </div>
 </div>
 
 <?php include("../includes/footer.php"); ?>
+<script>
+const ctx = document.getElementById('statsChart');
+
+if (ctx) {
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Users', 'Notes', 'Downloads'],
+            datasets: [{
+                label: 'System Data',
+                data: [
+                    <?php echo $user_count; ?>,
+                    <?php echo $note_count; ?>,
+                    <?php echo $download_count; ?>
+                ],
+                backgroundColor: [
+                    '#0d6efd',
+                    '#198754',
+                    '#fd7e14'
+                ],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#000'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#000'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+</script>
+</script>
 </body>
 </html>

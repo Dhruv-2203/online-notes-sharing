@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2026 at 05:08 PM
+-- Generation Time: Mar 05, 2026 at 08:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,13 +33,6 @@ CREATE TABLE `admin` (
   `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `admin`
---
-
-INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'admin', 'admin123');
-
 -- --------------------------------------------------------
 
 --
@@ -66,8 +59,16 @@ CREATE TABLE `notes` (
   `subject` varchar(100) DEFAULT NULL,
   `file_name` varchar(255) DEFAULT NULL,
   `uploaded_by` int(11) DEFAULT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `downloads` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notes`
+--
+
+INSERT INTO `notes` (`id`, `user_id`, `title`, `subject`, `file_name`, `uploaded_by`, `uploaded_at`, `downloads`) VALUES
+(1, 2, 'ddcet maths', 'Maths', '1772695256_Maths_50_Gujarati.pdf', 0, '2026-03-05 07:20:56', 0);
 
 -- --------------------------------------------------------
 
@@ -102,7 +103,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
-(4, 'Inferno', 'impinferno2@gmail.com', '1234567890', 'admin', '2026-03-03 15:36:50');
+(1, 'Dhruv', 'dhruv20@gmail', '1234567890', 'admin', '2026-03-05 06:59:25'),
+(2, 'venom', 'venom@ff', '0987654321', 'user', '2026-03-05 07:01:03'),
+(3, 'inferno', 'inferno@gg', '1122334455', 'user', '2026-03-05 07:02:11');
 
 --
 -- Indexes for dumped tables
@@ -152,13 +155,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `downloads`
 --
 ALTER TABLE `downloads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `uploads`
@@ -170,7 +173,7 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

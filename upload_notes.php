@@ -11,9 +11,20 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
+    $user_id = $_SESSION['user_id'];
     $uploaded_by = $_SESSION['name'];
 
     $file = $_FILES['file']['name'];
+    $file_type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+    if($file_type != "pdf"){
+    echo "<script>
+            alert('Only PDF files allowed');
+            window.location.href='upload_notes.php';
+          </script>";
+    return;
+    }
     $temp_name = $_FILES['file']['tmp_name'];
 
     $new_file_name = time() . "_" . $file;
@@ -22,11 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (move_uploaded_file($temp_name, $upload_path)) {
 
-        $query = "INSERT INTO notes (title, file_name, uploaded_by, uploaded_at)
-                  VALUES ('$title', '$new_file_name', '$uploaded_by', NOW())";
+        $query = "INSERT INTO notes (user_id, title, subject, file_name, uploaded_by, uploaded_at, downloads)
+        VALUES ('$user_id', '$title', '$subject', '$new_file_name', '$uploaded_by', NOW(), 0)";
 
         if (mysqli_query($conn, $query)) {
-            echo "<script>alert('Note uploaded successfully!');</script>";
+            echo "<script>
+            alert('Note uploaded successfully!');
+            window.location.href='notes.php';
+            </script>";
         } else {
             echo "Database Error: " . mysqli_error($conn);
         }
@@ -55,11 +69,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
                 <label class="form-label">Title</label>
                 <input type="text" name="title" class="form-control" required>
+                <select name="subject" class="form-control mt-2" required>
+                <option value="">Select Subject</option>
+                <option value="Maths">Maths</option>
+                <option value="Physics">Physics</option>
+                <option value="Computer">Computer</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Other">Other</option>
+                </select>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Select File</label>
-                <input type="file" name="file" class="form-control" required>
+                <input type="file" name="file" class="form-control" accept=".pdf" required>
             </div>
 
             <button type="submit" class="btn btn-success">

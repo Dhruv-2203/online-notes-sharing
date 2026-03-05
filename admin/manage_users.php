@@ -16,9 +16,18 @@ if ($_SESSION['role'] != 'admin') {
 
 // Delete user
 if (isset($_GET['delete'])) {
+
     $id = $_GET['delete'];
+
+    // Prevent admin deleting himself
+    if ($id == $_SESSION['user_id']) {
+        header("Location: manage_users.php");
+        exit();
+    }
+
     mysqli_query($conn, "DELETE FROM users WHERE id='$id'");
     header("Location: manage_users.php");
+    exit();
 }
 ?>
 
@@ -86,10 +95,21 @@ if (isset($_GET['delete'])) {
             <td><?php echo $row['email']; ?></td>
             <td><?php echo $row['role']; ?></td>
             <td>
-                <a class="delete" href="?delete=<?php echo $row['id']; ?>" 
-                   onclick="return confirm('Are you sure?')">
-                   Delete
+                <?php if($_SESSION['user_id'] != $row['id']) { ?>
+
+                <a href="manage_users.php?delete=<?php echo $row['id']; ?>" 
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this user?')">
+                Delete
                 </a>
+
+                <?php } else { ?>
+
+                <button class="btn btn-secondary btn-sm" disabled>
+                Cannot Delete Yourself
+                </button>
+
+                <?php } ?>
             </td>
         </tr>
         <?php } ?>

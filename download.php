@@ -1,39 +1,29 @@
 <?php
-session_start();
-include("db.php");
+include "db.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+if(isset($_GET['id'])){
 
-if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-    $note_id = $_GET['id'];
-    $user_id = $_SESSION['user_id'];
+    // get file information
+    $query = "SELECT * FROM notes WHERE id='$id'";
+    $result = mysqli_query($conn,$query);
+    $row = mysqli_fetch_assoc($result);
 
-    // Insert into downloads table
-    mysqli_query($conn, "
-        INSERT INTO downloads (user_id, note_id, download_date)
-        VALUES ('$user_id', '$note_id', NOW())
-    ");
+    $file = "uploads/".$row['file_name'];
 
-    // Get file name
-    $result = mysqli_query($conn, "
-        SELECT file_name FROM notes WHERE id='$note_id'
-    ");
+    if(file_exists($file)){
 
-    $note = mysqli_fetch_assoc($result);
+        // increase download count
+        mysqli_query($conn,"UPDATE notes SET downloads = downloads + 1 WHERE id='$id'");
 
-    if ($note) {
-        $file_path = "uploads/" . $note['file_name'];
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.basename($file).'"');
+        readfile($file);
+        exit();
 
-        if (file_exists($file_path)) {
-            header("Location: " . $file_path);
-            exit();
-        } else {
-            echo "File not found!";
-        }
+    }else{
+        echo "File not found.";
     }
 }
 ?>

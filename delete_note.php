@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
     $userId = $_SESSION['user_id'];
 
     // Get note info
-    $query = "SELECT * FROM notes WHERE id = '$noteId' AND uploaded_by = '$userId'";
+    $query = "SELECT * FROM notes WHERE id = '$noteId' AND user_id = '$userId'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) == 1) {
@@ -34,7 +34,8 @@ if (isset($_GET['id'])) {
         exit();
 
     } else {
-        echo "You are not allowed to delete this note!";
+        header("Location: notes.php");
+        exit();
     }
 }
 ?>

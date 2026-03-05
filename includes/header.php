@@ -15,7 +15,9 @@
           </a>
       <?php } ?>
 
-      <a class="btn btn-danger btn-sm" href="logout.php">Logout</a>
+      <a href="logout.php" class="btn btn-outline-light btn-sm ms-2">
+      <i class="fa fa-sign-out-alt"></i> Logout
+      </a>
       <button class="btn btn-dark btn-sm ms-2" onclick="toggleDarkMode()">🌙</button>
     </div>
   </div>

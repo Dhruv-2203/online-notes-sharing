@@ -9,7 +9,9 @@ $user_count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users"));
 $note_count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM notes"));
 
 // Total Downloads
-$download_count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM downloads"));
+$result = mysqli_query($conn, "SELECT SUM(downloads) as total FROM notes");
+$data = mysqli_fetch_assoc($result);
+$download_count = $data['total'] ?? 0;
 
 $popular_query = mysqli_query($conn, "
     SELECT notes.title, COUNT(downloads.id) as total_downloads
